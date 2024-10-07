@@ -1,0 +1,42 @@
+.recent-activities {
+  width: 250px;
+  font-family: Arial, sans-serif;
+}
+
+.activity-item {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+.activity-item::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: #6c63ff;
+  border-radius: 50%;
+  position: absolute;
+  left: 3px;
+  top: 9px;
+}
+
+.activity-item .activity-text {
+  font-size: 14px;
+  color: #333;
+}
+
+.activity-item .highlight {
+  color: red;
+}
+
+.activity-item:nth-child(2)::before {
+  background-color: #ffbe33;
+}
+
+.activity-item:nth-child(3)::before {
+  background-color: #00cfcf;
+}
+
+.activity-item:nth-child(4)::before {
+  background-color: #ff3f4e;
+}
