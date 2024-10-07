@@ -9,18 +9,21 @@ import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUpdate, setView } from "../../../Slices/StdActionSlice";
 const Parents = () => {
-  const dispatch = useDispatch();
-  const handleUpdate = (uniqueid) => {
-    let latestData = formData.filter((item) => item.uniqueid == uniqueid);
-    dispatch(setUpdate(latestData[0]));
-  };
   const [showhidden, setShowhidden] = useState(false);
   const [formData, setFormData] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [search, setSearch] = useState("");
+
   useEffect(() => {
     let data = JSON.parse(localStorage.getItem("formData"));
     console.log(data);
     setFormData(data);
   }, []);
+  const dispatch = useDispatch();
+  const handleUpdate = (uniqueid) => {
+    let latestData = formData.filter((item) => item.uniqueid == uniqueid);
+    dispatch(setUpdate(latestData[0]));
+  };
   const handleDelete = (uniqueid) => {
     setFormData((prev) => {
       const updatedData = prev.filter((item) => item.uniqueid !== uniqueid);
@@ -51,7 +54,7 @@ const Parents = () => {
                 <input
                   type="search"
                   name="search"
-                  // onChange={(e) => setSearchValue(e.target.value)}
+                  onChange={(e) => setSearchValue(e.target.value)}
                   placeholder="Type Name..."
                   className="bg-gray-100 h-6 px-5 rounded-full text-sm focus:outline-none lg:w-[150px] w-[100px] ml-1 font-semibold text-[11px]"
                 />
@@ -59,7 +62,9 @@ const Parents = () => {
             </div>
             <button
               className="bg-blue-900 h-6 px-5 pr-6 rounded-full text-sm focus:outline-none lg:w-[100px] w-[100px] ml-3 font-bold text-white text-[11px] mt-[1px] "
-              // onClick={handleSearch}
+              onClick={() => {
+                setSearch(searchValue);
+              }}
             >
               Search
             </button>
@@ -109,11 +114,11 @@ const Parents = () => {
         >
           {formData
             ? formData
-                // .filter((e) => {
-                //   return e.studentName
-                //     .toUpperCase()
-                //     .includes(search.toUpperCase());
-                // })
+                .filter((e) => {
+                  return e.fatherName
+                    .toUpperCase()
+                    .includes(search.toUpperCase());
+                })
                 .map((e) => {
                   return (
                     <>

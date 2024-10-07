@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { TfiReload } from "react-icons/tfi";
 import { IoClose } from "react-icons/io5";
-
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { setUpdate } from "../../../Slices/BookSlice";
 const AddBook = () => {
   const [showhidden, setShowhidden] = useState(false);
-  const HideShow = () => {
-    setShowhidden(!showhidden);
-  };
-
-  const [bookData, setbookData] = useState({
+  const [bookData, setBookData] = useState({
     bookName: "",
     subject: "",
     writerName: "",
@@ -19,10 +17,24 @@ const AddBook = () => {
     ID: "",
     uniqueid: "",
   });
-
+  const dispatch = useDispatch();
+  let view = useSelector((state) => state.BookSlice.BookUpdate);
+  console.log("this is view value", view);
+  useEffect(() => {
+    if (view !== null) {
+      setBookData((prev) => ({
+        ...prev,
+        ...view,
+      }));
+    }
+    console.log(bookData);
+  }, [view]);
+  const HideShow = () => {
+    setShowhidden(!showhidden);
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setbookData({
+    setBookData({
       ...bookData,
       [name]: value,
     });
@@ -31,7 +43,7 @@ const AddBook = () => {
   const handleSubmit = (e) => {
     let uniqueid =
       "id-" + Date.now() + "-" + Math.random().toString(36).substr(2, 9);
-    setbookData((prevData) => ({
+    setBookData((prevData) => ({
       ...prevData,
       uniqueid: uniqueid,
     }));
@@ -39,7 +51,7 @@ const AddBook = () => {
     const existingData = JSON.parse(localStorage.getItem("bookData")) || [];
     const updatedData = [...existingData, bookData];
     localStorage.setItem("bookData", JSON.stringify(updatedData));
-    setbookData({
+    setBookData({
       bookName: "",
       subject: "",
       writerName: "",
@@ -49,6 +61,19 @@ const AddBook = () => {
       ID: "",
       uniqueid: "",
     });
+  };
+
+  const handleUpdata = () => {
+    let storedData = JSON.parse(localStorage.getItem("bookData"));
+    console.log(storedData);
+    let updatedData = storedData.map((value) => {
+      if (value.uniqueid === bookData.uniqueid) {
+        return { ...value, ...bookData };
+      }
+      return value;
+    });
+    localStorage.setItem("bookData", JSON.stringify(updatedData));
+    dispatch(setUpdate(null));
   };
 
   const HandleClose = () => {
@@ -199,20 +224,41 @@ const AddBook = () => {
               </div>
 
               <div className="col-span-1 mr-[73px]">
-                <div className="mt-6 flex justify-end space-x-4">
-                  <button
-                    type="submit"
-                    className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                  >
-                    Save
-                  </button>
-                  <button
-                    type="reset"
-                    className="px-6 py-2 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                  >
-                    Reset
-                  </button>
-                </div>
+                {view === null ? (
+                  <div className="mt-6 ml-52 flex justify-end space-x-4">
+                    <button
+                      type="submit"
+                      className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    >
+                      Save
+                    </button>
+                    <button
+                      type="reset"
+                      className="px-6 py-2 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    >
+                      Reset
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mt-6 ml-52 flex justify-end space-x-4">
+                    <NavLink to="/library/allbooks">
+                      <button
+                        onClick={handleUpdata}
+                        className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      >
+                        Update
+                      </button>
+                    </NavLink>
+                    <NavLink to="/library/allbooks">
+                      <button
+                        className="px-6 py-2 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                        onClick={() => dispatch(setUpdate(null))}
+                      >
+                        Cancel
+                      </button>
+                    </NavLink>
+                  </div>
+                )}
               </div>
             </div>
           </form>

@@ -1,25 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { TfiReload } from "react-icons/tfi";
 import { IoClose } from "react-icons/io5";
-import { FaEye } from "react-icons/fa";
+
 import { NavLink } from "react-router-dom";
-import { setView } from "../../../Slices/ThrActionSlice";
 import { useDispatch } from "react-redux";
+import { setUpdate } from "../../../Slices/BookSlice";
 const Allbooks = () => {
+  const [showhidden, setShowhidden] = useState(false);
   let data = JSON.parse(localStorage.getItem("bookData"));
   console.log(data);
-  const [showhidden, setShowhidden] = useState(false);
+  const dispatch = useDispatch();
   const HideShow = () => {
     setShowhidden(!showhidden);
   };
-  const dispatch = useDispatch();
-  const HandleView = (uniqueid) => {
+  const handleUpdate = (uniqueid) => {
     let latestData = data.filter((item) => item.uniqueid == uniqueid);
-    console.log(latestData);
-    dispatch(setView(latestData));
+    dispatch(setUpdate(latestData[0]));
   };
   return (
     <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] animate__animated animate__fadeInLeft z-0">
@@ -28,7 +27,7 @@ const Allbooks = () => {
         className=" h-0 lg:w-[1080px]  lg:mt-16 lg:ml-14 bg-white "
       >
         <div className="h-8 flex justify-between pt-1   lg:h-8 bg-white pl-2">
-          <h1 className="font-semibold ">All Teachers</h1>
+          <h1 className="font-semibold ">All Books</h1>
           <div className="flex lg:mr-1">
             <div className="flex -mt-[1px]  ">
               <div className=" ">
@@ -112,10 +111,13 @@ const Allbooks = () => {
 
                           <p className="w-40 ">{e.uploadDate}</p>
 
-                          <div className="flex gap-1">
-                            <FaEye className="h-5 w-5 -mt-[1px] text-red-500 cursor-pointer" />
-
-                            <FaEdit className="h-4 w-4 text-green-500 cursor-pointer" />
+                          <div className="flex gap-2">
+                            <NavLink to="/library/addbook">
+                              <FaEdit
+                                onClick={() => handleUpdate(e.uniqueid)}
+                                className="h-4 w-4 text-green-500 cursor-pointer"
+                              />
+                            </NavLink>
                             <MdDelete className="h-5 w-5 -mt-[1px] text-red-500 cursor-pointer" />
                           </div>
                         </div>

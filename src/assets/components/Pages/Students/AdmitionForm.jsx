@@ -28,6 +28,7 @@ const AdmitionForm = () => {
     ParentImg: null,
     uniqueid: "",
   });
+  const dispatch = useDispatch();
   let view = useSelector((state) => state.stdAction.stdUpdate);
   useEffect(() => {
     if (view !== null) {
@@ -36,9 +37,8 @@ const AdmitionForm = () => {
         ...view,
       }));
     }
+    console.log("this is stdform value", view);
   }, [view]);
-  const dispatch = useDispatch();
-
   const [showhidden, setShowhidden] = useState(false);
   const HideShow = () => {
     setShowhidden(!showhidden);
@@ -46,9 +46,6 @@ const AdmitionForm = () => {
   const Reload = () => {
     setShowhidden(false);
   };
-  // const HandleClose = () => {
-  //   localStorage.clear("formData");
-  // };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({

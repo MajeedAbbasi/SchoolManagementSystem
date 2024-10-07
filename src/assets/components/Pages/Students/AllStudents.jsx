@@ -5,7 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { TfiReload } from "react-icons/tfi";
 import { IoClose } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUpdate, setView } from "../../../Slices/StdActionSlice";
 const AllStudents = () => {
   const [showhidden, setShowhidden] = useState(false);
@@ -136,10 +136,10 @@ const AllStudents = () => {
         >
           {formData && formData.length > 0
             ? formData
-                .filter((value) => {
-                  return value.studentName
-                    .toLowerCase()
-                    .includes(search.toLowerCase());
+                .filter((e) => {
+                  return e.studentName
+                    .toUpperCase()
+                    .includes(search.toUpperCase());
                 })
                 .map((e, key) => (
                   <>
