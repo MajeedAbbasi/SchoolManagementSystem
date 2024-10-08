@@ -19,7 +19,7 @@ const AddBook = () => {
   });
   const dispatch = useDispatch();
   let view = useSelector((state) => state.BookSlice.BookUpdate);
-  console.log("this is view value", view);
+
   useEffect(() => {
     if (view !== null) {
       setBookData((prev) => ({
@@ -27,7 +27,6 @@ const AddBook = () => {
         ...view,
       }));
     }
-    console.log(bookData);
   }, [view]);
   const HideShow = () => {
     setShowhidden(!showhidden);
@@ -41,15 +40,16 @@ const AddBook = () => {
   };
 
   const handleSubmit = (e) => {
-    let uniqueid =
-      "id-" + Date.now() + "-" + Math.random().toString(36).substr(2, 9);
-    setBookData((prevData) => ({
-      ...prevData,
-      uniqueid: uniqueid,
-    }));
     e.preventDefault();
+    let unique =
+      "id-" + Date.now() + "-" + Math.random().toString(36).substr(2, 9);
+    console.log(unique);
+    const updatedBookData = {
+      ...bookData,
+      uniqueid: unique,
+    };
     const existingData = JSON.parse(localStorage.getItem("bookData")) || [];
-    const updatedData = [...existingData, bookData];
+    const updatedData = [...existingData, updatedBookData];
     localStorage.setItem("bookData", JSON.stringify(updatedData));
     setBookData({
       bookName: "",

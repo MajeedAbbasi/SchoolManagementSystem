@@ -10,15 +10,29 @@ import { useDispatch } from "react-redux";
 import { setUpdate } from "../../../Slices/BookSlice";
 const Allbooks = () => {
   const [showhidden, setShowhidden] = useState(false);
-  let data = JSON.parse(localStorage.getItem("bookData"));
-  console.log(data);
+  const [search, setSearch] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const [bookData, setBookData] = useState("");
+
+  useEffect(() => {
+    let data = JSON.parse(localStorage.getItem("bookData"));
+    console.log(data);
+    setBookData(data);
+  }, []);
   const dispatch = useDispatch();
   const HideShow = () => {
     setShowhidden(!showhidden);
   };
   const handleUpdate = (uniqueid) => {
-    let latestData = data.filter((item) => item.uniqueid == uniqueid);
+    let latestData = bookData.filter((item) => item.uniqueid == uniqueid);
     dispatch(setUpdate(latestData[0]));
+  };
+  const handleDelete = (uniqueid) => {
+    setBookData((prev) => {
+      const updatedData = prev.filter((item) => item.uniqueid !== uniqueid);
+      localStorage.setItem("bookData", JSON.stringify(updatedData));
+      return updatedData;
+    });
   };
   return (
     <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] animate__animated animate__fadeInLeft z-0">
@@ -34,7 +48,7 @@ const Allbooks = () => {
                 <input
                   type="search"
                   name="search"
-                  // onChange={(e) => setSearchValue(e.target.value)}
+                  onChange={(e) => setSearchValue(e.target.value)}
                   placeholder="Type Name..."
                   className="bg-gray-100 h-6 px-5 rounded-full text-sm focus:outline-none lg:w-[150px] w-[100px] ml-1 font-semibold text-[11px]"
                 />
@@ -42,7 +56,10 @@ const Allbooks = () => {
             </div>
             <button
               className="bg-blue-900 h-6 px-5 pr-6 rounded-full text-sm focus:outline-none lg:w-[100px] w-[100px] ml-3 font-bold text-white text-[11px] mt-[1px] "
-              // onClick={handleSearch}
+              onClick={() => {
+                setSearch(searchValue);
+                setSearchValue("");
+              }}
             >
               Search
             </button>
@@ -88,13 +105,13 @@ const Allbooks = () => {
           }}
           className="lg:h-[520px]  bg-white transition-all duration-[1000ms] overflow-hidden"
         >
-          {data
-            ? data
-                // .filter((e) => {
-                //   return e.studentName
-                //     .toUpperCase()
-                //     .includes(search.toUpperCase());
-                // })
+          {bookData
+            ? bookData
+                .filter((e) => {
+                  return e.bookName
+                    .toUpperCase()
+                    .includes(search.toUpperCase());
+                })
                 .map((e) => {
                   return (
                     <>
@@ -118,7 +135,10 @@ const Allbooks = () => {
                                 className="h-4 w-4 text-green-500 cursor-pointer"
                               />
                             </NavLink>
-                            <MdDelete className="h-5 w-5 -mt-[1px] text-red-500 cursor-pointer" />
+                            <MdDelete
+                              className="h-5 w-5 -mt-[1px] text-red-500 cursor-pointer"
+                              onClick={() => handleDelete(e.uniqueid)}
+                            />
                           </div>
                         </div>
                       </div>

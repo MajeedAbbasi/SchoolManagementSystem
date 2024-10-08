@@ -25,7 +25,7 @@ const AllStudents = () => {
     }
     setClear(false);
     console.log("effect trigger");
-  }, [formData, clear]);
+  }, []);
 
   const handleSearch = () => {
     setSearch(searchValue);
