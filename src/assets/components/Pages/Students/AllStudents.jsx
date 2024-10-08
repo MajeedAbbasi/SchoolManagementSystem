@@ -10,7 +10,6 @@ import { setUpdate, setView } from "../../../Slices/StdActionSlice";
 const AllStudents = () => {
   const [showhidden, setShowhidden] = useState(false);
   const [close, setClose] = useState(false);
-  const [clear, setClear] = useState(false);
 
   const [search, setSearch] = useState("");
   const [searchValue, setSearchValue] = useState("");
@@ -23,8 +22,6 @@ const AllStudents = () => {
     if (data) {
       setFormData(JSON.parse(data));
     }
-    setClear(false);
-    console.log("effect trigger");
   }, []);
 
   const handleSearch = () => {
@@ -37,9 +34,6 @@ const AllStudents = () => {
       return true;
     });
   };
-  // const reload = () => {
-  //   handleSearch();
-  // };
 
   const handleView = (uniqueid) => {
     let latestData = formData.filter((item) => item.uniqueid == uniqueid);
@@ -104,7 +98,7 @@ const AllStudents = () => {
             )}
             <TfiReload
               className="text-green-400 cursor-pointer h-5 w-5 ml-3 mt-1"
-              onClick={handleSearch}
+              onClick={() => setSearch("")}
             />
             <IoClose
               className="text-red-500 cursor-pointer h-7 w-7 ml-3"
@@ -141,9 +135,9 @@ const AllStudents = () => {
                     .toUpperCase()
                     .includes(search.toUpperCase());
                 })
-                .map((e, key) => (
-                  <>
-                    <div className="flex font-semibold h-8 py-1" key={key}>
+                .map((e) => (
+                  <div key={e.uniqueid}>
+                    <div className="flex font-semibold h-8 py-1">
                       <input className="ml-2" type="checkbox" />
                       <div className="flex flex-row gap-6 ml-3 pt-1 text-[12px]">
                         <p className="w-7">{e.roll}</p>
@@ -190,7 +184,7 @@ const AllStudents = () => {
                       <hr />
                     </div>
                     <hr />
-                  </>
+                  </div>
                 ))
             : null}
         </div>

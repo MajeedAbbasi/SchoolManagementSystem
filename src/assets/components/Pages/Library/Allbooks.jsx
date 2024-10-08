@@ -76,7 +76,7 @@ const Allbooks = () => {
             )}
             <TfiReload
               className="text-green-400 cursor-pointer h-5 w-5 ml-3 mt-1"
-              // onClick={Reload}
+              onClick={() => setSearch("")}
             />
             <IoClose
               className="text-red-500 cursor-pointer h-7 w-7 ml-3"

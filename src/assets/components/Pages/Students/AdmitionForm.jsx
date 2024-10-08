@@ -37,7 +37,6 @@ const AdmitionForm = () => {
         ...view,
       }));
     }
-    console.log("this is stdform value", view);
   }, [view]);
   const [showhidden, setShowhidden] = useState(false);
   const HideShow = () => {

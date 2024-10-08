@@ -19,7 +19,6 @@ const CreateStudentPayment = () => {
     date: "",
     uniqueid: "",
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPaymentData({
@@ -72,10 +71,7 @@ const CreateStudentPayment = () => {
               onClick={HideShow}
             />
           )}
-          <TfiReload
-            className="text-green-400 cursor-pointer h-5 w-5 ml-3 mt-1"
-            // onClick={Reload}
-          />
+          <TfiReload className="text-green-400 cursor-pointer h-5 w-5 ml-3 mt-1" />
           <IoClose
             className="text-red-500 cursor-pointer h-7 w-7 ml-3"
             onClick={HandleClose}
@@ -190,7 +186,7 @@ const CreateStudentPayment = () => {
                 <select
                   required
                   className="w-56 h-8 bg-gray-100  shadow-sm focus:outline-none  pl-2  focus:ring-1 focus:ring-gray-400 focus:border rounded-sm"
-                  name="section"
+                  name="status"
                   value={paymentData.status}
                   onChange={handleChange}
                 >
