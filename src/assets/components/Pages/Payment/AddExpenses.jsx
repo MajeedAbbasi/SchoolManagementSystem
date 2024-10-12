@@ -38,6 +38,7 @@ const AddExpenses = () => {
     e.preventDefault();
     const existingData = JSON.parse(localStorage.getItem("addExpense")) || [];
     const updatedData = [...existingData, addExpense];
+
     localStorage.setItem("addExpense", JSON.stringify(updatedData));
     setAddExpense({
       name: "",
@@ -122,14 +123,17 @@ const AddExpenses = () => {
                 <label className="block mb-2 text-sm font-medium text-gray-700">
                   Expense Type
                 </label>
-                <input
+                <select
                   required
-                  type="number"
+                  className="w-56 h-8 bg-gray-100  shadow-sm focus:outline-none  pl-2  focus:ring-1 focus:ring-gray-400 focus:border rounded-sm"
                   name="expensetype"
                   value={addExpense.expensetype}
                   onChange={handleChange}
-                  className="w-56 h-8 bg-gray-100  shadow-sm focus:outline-none  pl-2  focus:ring-1 focus:ring-gray-400 focus:border rounded-sm"
-                />
+                >
+                  <option value="">Please Select Expense</option>
+                  <option value="Salary">Salary</option>
+                  <option value="Utility Expense">Utility Expense</option>
+                </select>
               </div>
               <div className="col-span-1">
                 <label className="block mb-2 text-sm font-medium text-gray-700">
@@ -164,7 +168,7 @@ const AddExpenses = () => {
                 <input
                   required
                   type="email"
-                  name="ID"
+                  name="email"
                   value={addExpense.email}
                   onChange={handleChange}
                   className="w-56 h-8 bg-gray-100  shadow-sm focus:outline-none  pl-2  focus:ring-1 focus:ring-gray-400 focus:border rounded-sm"
@@ -177,7 +181,7 @@ const AddExpenses = () => {
                 <select
                   required
                   className="w-56 h-8 bg-gray-100  shadow-sm focus:outline-none  pl-2  focus:ring-1 focus:ring-gray-400 focus:border rounded-sm"
-                  name="section"
+                  name="status"
                   value={addExpense.status}
                   onChange={handleChange}
                 >

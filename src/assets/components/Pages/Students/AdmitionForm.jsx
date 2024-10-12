@@ -7,6 +7,7 @@ import { setUpdate } from "../../../Slices/StdActionSlice";
 import { NavLink } from "react-router-dom";
 const AdmitionForm = () => {
   const [formData, setFormData] = useState({
+    ID: "",
     studentName: "",
     class: "",
     section: "",
@@ -84,11 +85,12 @@ const AdmitionForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
     const existingData = JSON.parse(localStorage.getItem("formData")) || [];
     const updatedData = [...existingData, formData];
-
     localStorage.setItem("formData", JSON.stringify(updatedData));
     setFormData({
+      ID: "",
       studentName: "",
       class: "",
       section: "",
@@ -171,6 +173,17 @@ const AdmitionForm = () => {
                     type="text"
                     name="studentName"
                     value={formData.studentName}
+                    onChange={handleChange}
+                    className="w-56 h-8 bg-gray-100  shadow-sm focus:outline-none  pl-2  focus:ring-1 focus:ring-gray-400 focus:border rounded-sm"
+                  />
+                </div>
+                <div className="col-span-1">
+                  <label className="block mb-2 text-sm font-medium ">ID</label>
+                  <input
+                    required
+                    type="number"
+                    name="ID"
+                    value={formData.ID}
                     onChange={handleChange}
                     className="w-56 h-8 bg-gray-100  shadow-sm focus:outline-none  pl-2  focus:ring-1 focus:ring-gray-400 focus:border rounded-sm"
                   />
@@ -262,7 +275,7 @@ const AdmitionForm = () => {
                   </label>
                   <input
                     required
-                    type="text"
+                    type="number"
                     name="admissionNo"
                     value={formData.admissionNo}
                     onChange={handleChange}

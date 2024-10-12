@@ -4,7 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { TfiReload } from "react-icons/tfi";
 import { IoClose } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
-import { FaEdit, FaEye } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 const FeeCollection = () => {
   const [showhidden, setShowhidden] = useState(false);
   const [paymentData, setPaymentData] = useState(null);
@@ -13,7 +13,6 @@ const FeeCollection = () => {
     console.log(feeData);
     let stdData = localStorage.getItem("formData");
     console.log(stdData);
-    // setPaymentData(stdData);
   }, []);
   return (
     <div>

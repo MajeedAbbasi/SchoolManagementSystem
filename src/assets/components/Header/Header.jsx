@@ -42,7 +42,7 @@ const Header = () => {
           </div>
         </div>
         <div className="text-black rounded-full border-black flex ml-2 mt-2">
-          <div className="bg-[#e9e4e4] my-auto -mt-1.5 p-1.5 rounded-full mx-auto text-gray-600 ">
+          <div className="bg-[#e9e4e4] my-auto -mt-1.5 p-1.5 rounded-full mx-auto text-gray-600 cursor-pointer ">
             <FaGlobeEurope />
           </div>
           <div className="mt-[-4px] ">
@@ -59,9 +59,9 @@ const Header = () => {
         <div className="h-6 w-[1px] bg-slate-400 mt-1"></div>
         <div className="flex gap-3 ml-3 mt-2 ">
           <div className="bg-[#e9e4e4] my-auto -mt-1.5 p-1.5 rounded-full mx-auto text-gray-600">
-            <CiMail className="" />
+            <CiMail className="cursor-pointer" />
           </div>
-          <div className="bg-[#e9e4e4] my-auto -mt-1.5 p-1.5 rounded-full mx-auto text-gray-600">
+          <div className="bg-[#e9e4e4] my-auto -mt-1.5 p-1.5 rounded-full mx-auto text-gray-600 cursor-pointer">
             <FaRegBell />
           </div>
         </div>

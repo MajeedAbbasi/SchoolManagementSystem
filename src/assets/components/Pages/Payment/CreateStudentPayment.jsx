@@ -35,6 +35,8 @@ const CreateStudentPayment = () => {
       uniqueid: uniqueid,
     }));
     e.preventDefault();
+    const formData = localStorage.getItem("formData");
+
     const existingData = JSON.parse(localStorage.getItem("paymentData")) || [];
     const updatedData = [...existingData, paymentData];
     localStorage.setItem("paymentData", JSON.stringify(updatedData));
@@ -54,7 +56,6 @@ const CreateStudentPayment = () => {
   const HandleClose = () => {
     localStorage.clear("paymentData");
   };
-
   return (
     <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] animate__animated animate__fadeInLeft z-0">
       <div className="h-8 ml-14 flex pt-1 lg:h-8  bg-white mt-16 w-[1080px] pl-1 ">
