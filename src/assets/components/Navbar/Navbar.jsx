@@ -18,12 +18,12 @@ import logo from "../../image/logo.png";
 
 const Navbar = () => {
   const [active, setActive] = useState(true);
-  const [activated, setActivated] = useState(false);
 
-  const MouseEnter = () => {
-    setActive(!active);
-    setActivated(true);
-  };
+  const [stdActivate, setStActivate] = useState(false);
+  const [tchrActivate, setTchrActivate] = useState(false);
+  const [libraryActivate, setLibraryActivate] = useState(false);
+  const [paymentActivate, setPaymentActivate] = useState(false);
+  const [examActivate, setExamActivate] = useState(false);
 
   const location = useLocation();
   useEffect(() => {
@@ -32,9 +32,44 @@ const Navbar = () => {
       location.pathname === "/students/detail" ||
       location.pathname === "/students/form"
     ) {
-      setActivated(true);
+      setStActivate(true);
     } else {
-      setActivated(false);
+      setStActivate(false);
+    }
+    if (
+      location.pathname === "/teachers/form" ||
+      location.pathname === "/teachers/detail" ||
+      location.pathname === "/teachers/allteachers"
+    ) {
+      setTchrActivate(true);
+    } else {
+      setTchrActivate(false);
+    }
+    if (
+      location.pathname === "/library/allbooks" ||
+      location.pathname === "/library/addbook"
+    ) {
+      setLibraryActivate(true);
+    } else {
+      setLibraryActivate(false);
+    }
+    if (
+      location.pathname === "/exam/examschedule" ||
+      location.pathname === "/exam/examgrade"
+    ) {
+      setExamActivate(true);
+    } else {
+      setExamActivate(false);
+    }
+    if (
+      location.pathname === "/payment/feecollection" ||
+      location.pathname === "/payment/allexpenses" ||
+      location.pathname === "/payment/addexpenses" ||
+      location.pathname === "/payment/createstudentpayment"
+    ) {
+      setPaymentActivate(true);
+    } else {
+      setPaymentActivate(false);
     }
   }, [location]);
 
@@ -46,7 +81,11 @@ const Navbar = () => {
         </div>
         <Buttons name={"Dashboard"} to={"/"} Before={AiFillDashboard} />
         <hr className=" border-yellow-400" />
-        <div className=" h-8 bg-blue-950 transition-all duration-[1000ms] active:h-32 hover:h-32 overflow-hidden  ">
+        <div
+          className={`h-8 bg-blue-950 transition-all duration-[1000ms] active:h-32  overflow-hidden ${
+            stdActivate ? "h-32" : "h-8 hover:h-32"
+          } `}
+        >
           <li className="text-white flex bg-blue-950 w-full pl-5 pt-1 h-[5%] cursor-pointer">
             <FaPeopleRoof className="text-yellow-500 relative mr-3 mt-1" />
             <nav>
@@ -95,7 +134,11 @@ const Navbar = () => {
           </li>
         </div>
         <hr className=" border-yellow-400" />
-        <div className=" h-8 bg-blue-950 transition-all duration-[1000ms] active:h-28 hover:h-32 overflow-hidden ">
+        <div
+          className={` h-8 bg-blue-950 transition-all duration-[1000ms] active:h-28  overflow-hidden ${
+            tchrActivate ? "h-32" : "h-8 hover:h-32"
+          } `}
+        >
           <li className="text-white flex bg-blue-950 w-full pl-5 pt-1 h-[5%] cursor-pointer">
             <IoIosPeople className="text-yellow-500 relative mr-3 mt-1 " />
             <nav>
@@ -146,7 +189,11 @@ const Navbar = () => {
         <hr className=" border-yellow-400" />
         <Buttons name={"Parents"} to={"/parents"} Before={IoMdPersonAdd} />
         <hr className=" border-yellow-400" />
-        <div className=" h-8 bg-blue-950 transition-all duration-[1000ms] hover:h-24 overflow-hidden cursor-pointer">
+        <div
+          className={` h-8 bg-blue-950 transition-all duration-[1000ms]  overflow-hidden cursor-pointer ${
+            libraryActivate ? "h-24" : "h-8 hover:h-24"
+          }`}
+        >
           <li className="text-white flex bg-blue-950 w-full pl-5 pt-1 h-[5%] cursor-pointer">
             <MdLocalLibrary className="text-yellow-500 relative mr-3 mt-1" />
             <nav>
@@ -184,7 +231,11 @@ const Navbar = () => {
           </li>
         </div>
         <hr className=" border-yellow-400" />
-        <div className=" h-8 bg-blue-950 transition-all duration-[1000ms] hover:h-48 overflow-hidden ">
+        <div
+          className={`bg-blue-950 transition-all duration-[1000ms] ${
+            paymentActivate ? "h-48" : "h-8 hover:h-48"
+          } overflow-hidden`}
+        >
           <li className="text-white flex bg-blue-950 w-full pl-5 pt-1 h-[5%] cursor-pointer">
             <MdOutlinePayment className="text-yellow-500 relative mr-3 mt-1" />
             <nav>
@@ -246,13 +297,12 @@ const Navbar = () => {
         <hr className=" border-yellow-400" />
         <Buttons name={"Subject"} to={"/subject"} Before={MdMenuBook} />
         <hr className=" border-yellow-400" />
-        <Buttons
-          name={"Class Routine"}
-          to={"/routine"}
-          Before={IoCalendarOutline}
-        />
-        <hr className=" border-yellow-400" />
-        <div className=" h-8 bg-blue-950 transition-all duration-[1000ms] hover:h-24 overflow-hidden ">
+
+        <div
+          className={` h-8 bg-blue-950 transition-all duration-[1000ms] hover:h-24 overflow-hidden ${
+            examActivate ? "h-24" : "h-8"
+          }`}
+        >
           <li className="text-white flex bg-blue-950 w-full pl-5 pt-1 h-[5%] cursor-pointer">
             <FaRegNoteSticky className="text-yellow-500 relative mr-3 mt-1" />
             <nav>

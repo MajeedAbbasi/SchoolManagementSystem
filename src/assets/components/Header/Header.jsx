@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import adminpic from "../../image/admin/adminpic.png";
+import { MdDelete } from "react-icons/md";
 import { GiGraduateCap } from "react-icons/gi";
 import { FaGlobeEurope } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
 import { CiMail } from "react-icons/ci";
 import { FaRegBell } from "react-icons/fa6";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setNotification,
+  setNotifications,
+} from "../../Slices/NotificationSlice";
+import { setMessageCount, setMessages } from "../../Slices/MessageSlice";
 
 const Header = () => {
-  //   console.log(adminpic);
+  const [close, setClose] = useState(true);
+  const [closeNotification, setCloseNotification] = useState(true);
+  const notificationCount = useSelector(
+    (state) => state.NotificationSlice.notification
+  );
+  const notificationData = useSelector(
+    (state) => state.NotificationSlice.notifications
+  );
+  const MessageCount = useSelector((state) => state.MessageSlice.messageSlice);
+  const Messages = useSelector((state) => state.MessageSlice.messages);
+  console.log(Messages);
+  const dispatch = useDispatch();
+
   return (
     <>
       <div className="  header flex z-10  bg-white fixed  pt-2  h-12 w-full">
@@ -58,11 +78,127 @@ const Header = () => {
         </div>
         <div className="h-6 w-[1px] bg-slate-400 mt-1"></div>
         <div className="flex gap-3 ml-3 mt-2 ">
-          <div className="bg-[#e9e4e4] my-auto -mt-1.5 p-1.5 rounded-full mx-auto text-gray-600">
-            <CiMail className="cursor-pointer" />
+          <div
+            className="bg-[#e9e4e4] my-auto -mt-1.5 p-1.5 rounded-full mx-auto text-gray-600 cursor-pointer"
+            onClick={() => {
+              dispatch(setMessageCount(0));
+              setClose(!close);
+              setCloseNotification(true);
+            }}
+          >
+            {MessageCount ? (
+              <p className="absolute text-[10px] ml-3 -mt-3 w-4 h-4 border  rounded-full text-white bg-green-400 pl-[5px] pb-[5px]">
+                {MessageCount}
+              </p>
+            ) : (
+              ""
+            )}
+
+            <CiMail />
           </div>
-          <div className="bg-[#e9e4e4] my-auto -mt-1.5 p-1.5 rounded-full mx-auto text-gray-600 cursor-pointer">
+          <div
+            className={`absolute  bg-gray-100 shadow-md h-56 w-56 top-9 rounded-sm -ml-[200px] ${
+              close ? "hidden" : "visible"
+            }`}
+          >
+            <div className="flex ml-2 gap-32">
+              <p>Messages</p>
+              <div
+                className="absolute right-10 text-green-600 m-[5px] -mr-3 cursor-pointer"
+                onClick={() => dispatch(setMessages(0))}
+              >
+                <MdDelete />
+              </div>
+              <div
+                className="text-red-600 mt-1 cursor-pointer"
+                onClick={() => {
+                  setClose(true);
+                }}
+              >
+                <IoClose className="w-5 h-5" />
+              </div>
+            </div>
+            <hr />
+            <div className="flex flex-col ml-2 mt-2 gap-1 overflow-auto w-52 h-44">
+              <div>
+                {Messages && Messages.length > 0 ? (
+                  Messages.map((e, index) => (
+                    <div key={index} className="">
+                      <div className="flex flex-col">
+                        <p className="font-bold">{e.title}</p>
+                        <p className="text-green-400">{e.recipent}</p>
+                        <p>{e.message}</p>
+                      </div>
+                      <hr />
+                    </div>
+                  ))
+                ) : (
+                  <div>No Data Found</div>
+                )}
+              </div>
+            </div>
+          </div>
+          <div
+            className="bg-[#e9e4e4] my-auto -mt-1.5 p-1.5 rounded-full mx-auto text-gray-600 cursor-pointer"
+            onClick={() => {
+              dispatch(setNotification(0));
+              setCloseNotification(!closeNotification);
+              setClose(true);
+            }}
+          >
+            {notificationCount ? (
+              <p className="absolute text-[10px] ml-3 -mt-3 w-4 h-4 border  rounded-full text-white bg-red-400 pl-[5px] pb-[5px] ">
+                {notificationCount}
+              </p>
+            ) : (
+              ""
+            )}
+
             <FaRegBell />
+          </div>
+          <div
+            className={`absolute  bg-gray-100 shadow-md h-56 w-56 top-9 rounded-sm -ml-40 ${
+              closeNotification ? "hidden" : "visible"
+            }`}
+          >
+            <div className="flex ml-2 gap-32">
+              <p>Notification</p>
+              <div
+                className="absolute right-10 text-green-600 m-[5px] -mr-3 cursor-pointer"
+                onClick={() => dispatch(setNotifications(0))}
+              >
+                <MdDelete />
+              </div>
+              <div
+                className="text-red-600 mt-1 cursor-pointer -ml-3"
+                onClick={() => {
+                  setCloseNotification(true);
+                }}
+              >
+                <IoClose className="w-5 h-5" />
+              </div>
+            </div>
+            <hr />
+            <div className="flex flex-col ml-2 mt-2 gap-1 overflow-auto w-52 h-44">
+              {notificationData && notificationData.length > 0 ? (
+                notificationData.map((e, index) => (
+                  <div key={index} className="">
+                    <div className="flex flex-col">
+                      <p className="font-bold">{e.title}</p>
+                      <div className="flex gap-20">
+                        <p className="text-green-400">{e.PostedBy}</p>
+                        <p className="text-amber-950">{e.date}</p>
+                      </div>
+
+                      <p>{e.detail}</p>
+                    </div>
+                    <hr />
+                  </div>
+                ))
+              ) : (
+                <div>No Data Found</div>
+              )}
+            </div>
           </div>
         </div>
         <div className="h-6 w-[1px] bg-slate-400 mt-1 ml-3"></div>

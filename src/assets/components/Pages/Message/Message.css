@@ -1,0 +1,103 @@
+.success-icon {
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.success-icon span {
+  display: inline-block;
+  background-color: #8bc34a;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  position: relative;
+  box-shadow: 0 0 0 10px rgba(139, 195, 74, 0.2),
+    0 0 0 20px rgba(139, 195, 74, 0.1);
+}
+
+.success-icon span::before {
+  content: "✔";
+  font-size: 28px;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.success-text {
+  font-size: 14px;
+  color: #888;
+  font-style: italic;
+}
+
+.error-box {
+  width: 400px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.error-icon {
+  display: inline-block;
+  margin: 20px 0;
+  position: relative;
+}
+
+.error-icon span {
+  display: inline-block;
+  background-color: #f44336;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  position: relative;
+  box-shadow: 0 0 0 10px rgba(244, 67, 54, 0.1),
+    0 0 0 20px rgba(244, 67, 54, 0.05);
+}
+
+.error-icon span::before {
+  content: "!";
+  font-size: 30px;
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.error-text {
+  font-size: 14px;
+  color: #999;
+  margin-top: 10px;
+}
+
+@keyframes fadeInRightBigCustom {
+  0% {
+    opacity: 0;
+    transform: translateX(60px); /* Start way off to the right */
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0); /* End in the original position */
+  }
+}
+
+.fadeInRightBigCustom {
+  animation: fadeInRightBigCustom 1s ease-out both; /* Animation duration of 1s */
+}
+
+@keyframes fadeInLeftToRightCustom {
+  0% {
+    opacity: 0;
+    transform: translateX(-60px); /* Start off-screen to the left */
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0); /* End in the original position */
+  }
+}
+
+.fadeInLeftToRightCustom {
+  animation: fadeInLeftToRightCustom 1s ease-out both; /* 1s animation */
+}

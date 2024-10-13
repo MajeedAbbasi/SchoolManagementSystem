@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { FaEdit, FaEye } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { NavLink } from "react-router-dom";
 import { TfiReload } from "react-icons/tfi";
 import { IoClose } from "react-icons/io5";
-import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUpdate, setView } from "../../../Slices/StdActionSlice";
 const AllStudents = () => {
