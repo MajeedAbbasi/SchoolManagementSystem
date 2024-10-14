@@ -17,8 +17,6 @@ import Buttons from "./Buttons";
 import logo from "../../image/logo.png";
 
 const Navbar = () => {
-  const [active, setActive] = useState(true);
-
   const [stdActivate, setStActivate] = useState(false);
   const [tchrActivate, setTchrActivate] = useState(false);
   const [libraryActivate, setLibraryActivate] = useState(false);
@@ -82,8 +80,8 @@ const Navbar = () => {
         <Buttons name={"Dashboard"} to={"/"} Before={AiFillDashboard} />
         <hr className=" border-yellow-400" />
         <div
-          className={`h-8 bg-blue-950 transition-all duration-[1000ms] active:h-32  overflow-hidden ${
-            stdActivate ? "h-32" : "h-8 hover:h-32"
+          className={` bg-blue-950  hover:h-32 transition-all duration-[1000ms]   overflow-hidden ${
+            stdActivate === true ? "h-32" : "h-8"
           } `}
         >
           <li className="text-white flex bg-blue-950 w-full pl-5 pt-1 h-[5%] cursor-pointer">
@@ -126,16 +124,12 @@ const Navbar = () => {
                 </li>
               </ul>
             </nav>
-            {active ? (
-              <FaArrowRight className="text-yellow-500 absolute mt-1 left-40" />
-            ) : (
-              <FaArrowDown className="text-yellow-500 absolute mt-1 left-40" />
-            )}
+            <FaArrowRight className="text-yellow-500 absolute mt-1 left-40" />
           </li>
         </div>
         <hr className=" border-yellow-400" />
         <div
-          className={` h-8 bg-blue-950 transition-all duration-[1000ms] active:h-28  overflow-hidden ${
+          className={`  bg-blue-950 transition-all duration-[1000ms] active:h-28  overflow-hidden ${
             tchrActivate ? "h-32" : "h-8 hover:h-32"
           } `}
         >
@@ -179,18 +173,15 @@ const Navbar = () => {
                 </li>
               </ul>
             </nav>
-            {active ? (
-              <FaArrowRight className="text-yellow-500 absolute mt-1 left-40" />
-            ) : (
-              <FaArrowDown className="text-yellow-500 absolute mt-1 left-40" />
-            )}
+
+            <FaArrowRight className="text-yellow-500 absolute mt-1 left-40" />
           </li>
         </div>
         <hr className=" border-yellow-400" />
         <Buttons name={"Parents"} to={"/parents"} Before={IoMdPersonAdd} />
         <hr className=" border-yellow-400" />
         <div
-          className={` h-8 bg-blue-950 transition-all duration-[1000ms]  overflow-hidden cursor-pointer ${
+          className={` bg-blue-950 transition-all duration-[1000ms]  overflow-hidden cursor-pointer ${
             libraryActivate ? "h-24" : "h-8 hover:h-24"
           }`}
         >
@@ -223,11 +214,8 @@ const Navbar = () => {
                 </li>
               </ul>
             </nav>
-            {active ? (
-              <FaArrowRight className="text-yellow-500 absolute mt-1 left-40" />
-            ) : (
-              <FaArrowDown className="text-yellow-500 absolute mt-1 left-40" />
-            )}
+
+            <FaArrowRight className="text-yellow-500 absolute mt-1 left-40" />
           </li>
         </div>
         <hr className=" border-yellow-400" />
@@ -287,11 +275,8 @@ const Navbar = () => {
                 </li>
               </ul>
             </nav>
-            {active ? (
-              <FaArrowRight className="text-yellow-500 absolute mt-1 left-40" />
-            ) : (
-              <FaArrowDown className="text-yellow-500 absolute mt-1 left-40" />
-            )}
+
+            <FaArrowRight className="text-yellow-500 absolute mt-1 left-40" />
           </li>
         </div>
         <hr className=" border-yellow-400" />
@@ -299,7 +284,7 @@ const Navbar = () => {
         <hr className=" border-yellow-400" />
 
         <div
-          className={` h-8 bg-blue-950 transition-all duration-[1000ms] hover:h-24 overflow-hidden ${
+          className={`  bg-blue-950 transition-all duration-[1000ms] hover:h-24 overflow-hidden ${
             examActivate ? "h-24" : "h-8"
           }`}
         >
@@ -332,11 +317,8 @@ const Navbar = () => {
                 </li>
               </ul>
             </nav>
-            {active ? (
-              <FaArrowRight className="text-yellow-500 absolute mt-1 left-40" />
-            ) : (
-              <FaArrowDown className="text-yellow-500 absolute mt-1 left-40" />
-            )}
+
+            <FaArrowRight className="text-yellow-500 absolute mt-1 left-40" />
           </li>
         </div>
         <hr className=" border-yellow-400" />
