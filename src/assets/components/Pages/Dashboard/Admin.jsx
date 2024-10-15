@@ -20,7 +20,7 @@ const Admin = () => {
 
   return (
     <>
-      <div className=" bg-gray-300   h-full animate__animated animate__fadeInLeft z-0 ">
+      <div className=" bg-gray-300   h-full  fadeInLeftToRightCustom z-0 ">
         <div className="bg-gray-300  flex flex-col lg:w-[100%]   mt-10  p-3 ">
           <div className="flex flex-col  lg:flex-row ">
             <div className=" flex pt-3 pl-10 ">

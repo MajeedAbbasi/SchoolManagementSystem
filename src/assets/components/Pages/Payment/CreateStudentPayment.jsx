@@ -57,7 +57,7 @@ const CreateStudentPayment = () => {
     localStorage.clear("paymentData");
   };
   return (
-    <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] animate__animated animate__fadeInLeft z-0">
+    <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] fadeInLeftToRightCustom z-0">
       <div className="h-8 ml-14 flex pt-1 lg:h-8  bg-white mt-16 w-[1080px] pl-1 ">
         <h1 className=" font-semibold  w-[300px]">Payment Information</h1>
         <div className="flex ml-[656px]">

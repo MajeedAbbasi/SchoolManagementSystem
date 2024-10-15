@@ -51,14 +51,7 @@ const Navbar = () => {
     } else {
       setLibraryActivate(false);
     }
-    if (
-      location.pathname === "/exam/examschedule" ||
-      location.pathname === "/exam/examgrade"
-    ) {
-      setExamActivate(true);
-    } else {
-      setExamActivate(false);
-    }
+
     if (
       location.pathname === "/payment/feecollection" ||
       location.pathname === "/payment/allexpenses" ||
@@ -283,44 +276,11 @@ const Navbar = () => {
         <Buttons name={"Subject"} to={"/subject"} Before={MdMenuBook} />
         <hr className=" border-yellow-400" />
 
-        <div
-          className={`  bg-blue-950 transition-all duration-[1000ms] hover:h-24 overflow-hidden ${
-            examActivate ? "h-24" : "h-8"
-          }`}
-        >
-          <li className="text-white flex bg-blue-950 w-full pl-5 pt-1 h-[5%] cursor-pointer">
-            <FaRegNoteSticky className="text-yellow-500 relative mr-3 mt-1" />
-            <nav>
-              Exam
-              <ul>
-                <li className="list-none mt-2 flex text-yellow-500">
-                  <IoIosArrowForward className="mt-1 " />
-                  <NavLink
-                    style={({ isActive }) => {
-                      return { color: isActive ? "#ecc94b" : "white" };
-                    }}
-                    to="/exam/examschedule"
-                  >
-                    Exam Schedule
-                  </NavLink>
-                </li>
-                <li className="list-none mt-2 flex ">
-                  <IoIosArrowForward className="mt-1 text-yellow-500" />
-                  <NavLink
-                    to="/exam/examgrade"
-                    style={({ isActive }) => {
-                      return { color: isActive ? "#ecc94b" : "white" };
-                    }}
-                  >
-                    Exam Grade
-                  </NavLink>
-                </li>
-              </ul>
-            </nav>
-
-            <FaArrowRight className="text-yellow-500 absolute mt-1 left-40" />
-          </li>
-        </div>
+        <Buttons
+          name={"Exam Schedule"}
+          to={"/examschedule"}
+          Before={FaRegNoteSticky}
+        />
         <hr className=" border-yellow-400" />
         <Buttons name={"Notice"} to={"/notice"} Before={FaMap} />
         <hr className=" border-yellow-400" />

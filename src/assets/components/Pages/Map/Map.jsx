@@ -8,7 +8,7 @@ const Map = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] animate__animated animate__fadeInLeft z-0">
+      <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] fadeInLeftToRightCustom  z-0">
         <div className="h-8  ml-14 flex justify-between pt-1 mt-20 w-[1080px] lg:h-8 bg-white pl-2">
           <h1 className="font-semibold ">Marker Map</h1>
           <div className="flex lg:mr-1">

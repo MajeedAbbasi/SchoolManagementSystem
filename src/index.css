@@ -79,3 +79,33 @@
     transform: translate(24px, 0);
   }
 }
+
+@keyframes fadeInRightBigCustom {
+  0% {
+    opacity: 0;
+    transform: translateX(60px); /* Start way off to the right */
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(0); /* End in the original position */
+  }
+}
+
+.fadeInRightBigCustom {
+  animation: fadeInRightBigCustom 1s ease-out both; /* Animation duration of 1s */
+}
+
+@keyframes fadeInLeftToRightCustom {
+  0% {
+    opacity: 0;
+    transform: translateX(-60px); /* Start off-screen to the left */
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0); /* End in the original position */
+  }
+}
+
+.fadeInLeftToRightCustom {
+  animation: fadeInLeftToRightCustom 1s ease-out both; /* 1s animation */
+}

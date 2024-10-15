@@ -4,7 +4,7 @@ import { TfiReload } from "react-icons/tfi";
 import { IoClose } from "react-icons/io5";
 import { FaEdit, FaEye } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+
 const Subject = () => {
   const [showhidden, setShowhidden] = useState(null);
   const [hide, setHide] = useState(null);
@@ -76,7 +76,6 @@ const Subject = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-
     let uniqueid =
       "id-" + Date.now() + "-" + Math.random().toString(36).substr(2, 9);
 
@@ -98,7 +97,7 @@ const Subject = () => {
 
   return (
     <div>
-      <div className="bg-gray-300  lg:h-full flex  lg:w-[100%] animate__animated animate__fadeInLeft z-0">
+      <div className="bg-gray-300  lg:h-full flex  lg:w-[100%] fadeInLeftToRightCustom z-0">
         <div
           // style={{ display: close ? "none" : "block" }}
           className=" h-0 lg:w-[300px]  lg:mt-16 lg:ml-14 bg-white "

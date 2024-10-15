@@ -35,7 +35,7 @@ const Allbooks = () => {
     });
   };
   return (
-    <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] animate__animated animate__fadeInLeft z-0">
+    <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] fadeInLeftToRightCustom z-0">
       <div
         // style={{ display: close ? "none" : "block" }}
         className=" h-0 lg:w-[1080px]  lg:mt-16 lg:ml-14 bg-white "

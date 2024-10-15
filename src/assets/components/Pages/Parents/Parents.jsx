@@ -44,7 +44,7 @@ const Parents = () => {
     <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%]">
       <div
         // style={{ display: close ? "none" : "block" }}
-        className=" h-0 lg:w-[1080px]  lg:mt-16 lg:ml-14 bg-white "
+        className=" h-0 lg:w-[1080px]  lg:mt-16 lg:ml-14 bg-white fadeInLeftToRightCustom"
       >
         <div className="h-8 flex justify-between pt-1   lg:h-8 bg-white pl-2">
           <h1 className="font-semibold ">All Parents</h1>

@@ -60,7 +60,7 @@ const Message = () => {
 
   return (
     <div>
-      <div className="bg-gray-300  lg:h-full flex  lg:w-[100%] animate__animated animate__fadeInLeft z-0">
+      <div className="bg-gray-300  lg:h-full flex  lg:w-[100%] fadeInLeftToRightCustom z-0">
         <div className=" h-0 lg:w-[670px]  lg:mt-16 lg:ml-8 bg-white ">
           <div className="h-8 flex justify-between pt-1   lg:h-8 bg-white pl-2">
             <h1 className="font-semibold ">Write a Message</h1>

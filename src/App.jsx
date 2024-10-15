@@ -19,7 +19,6 @@ import AddExpenses from "./assets/components/Pages/Payment/AddExpenses";
 import Subject from "./assets/components/Pages/Subject/Subject";
 import ClassRoutine from "./assets/components/Pages/Class Routine/ClassRoutine";
 import ExamSchedule from "./assets/components/Pages/Exam/ExamSchedule";
-import ExamGrade from "./assets/components/Pages/Exam/ExamGrade";
 import Notice from "./assets/components/Pages/Notice/Notice";
 import Message from "./assets/components/Pages/Message/Message";
 import Map from "./assets/components/Pages/Map/Map";
@@ -56,8 +55,7 @@ const App = () => {
             <Route path="/payment/addexpenses" element={<AddExpenses />} />
             <Route path="/subject" element={<Subject />} />
             <Route path="/classroutine" element={<ClassRoutine />} />
-            <Route path="/exam/examschedule" element={<ExamSchedule />} />
-            <Route path="/exam/examgrade" element={<ExamGrade />} />
+            <Route path="/examschedule" element={<ExamSchedule />} />
             <Route path="/notice" element={<Notice />} />
             <Route path="/message" element={<Message />} />
             <Route path="/map" element={<Map />} />
