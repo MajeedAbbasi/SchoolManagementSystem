@@ -12,7 +12,7 @@ import {
   FaMapMarkerAlt,
   FaMap,
 } from "react-icons/fa";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Buttons from "./Buttons";
 import logo from "../../image/logo.png";
 
@@ -24,6 +24,14 @@ const Navbar = () => {
   const [examActivate, setExamActivate] = useState(false);
 
   const location = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    let access = JSON.parse(localStorage.getItem("login")) || [];
+    if (access.type == true && location.pathname === "/") {
+      navigate("/dashboard");
+    }
+  }, []);
+
   useEffect(() => {
     if (
       location.pathname === "/students/allstudents" ||
@@ -66,11 +74,15 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="bg-blue-950 lg:fixed  lg:block hidden h-full w-[200px] text-white z-10">
+      <div className="bg-blue-950  fixed lg:block hidden h-full w-[200px] text-white z-10 overflow-hidden">
         <div style={{ background: "#edbd14" }} className=" h-12">
           <img className="h-12 w-36 overflow-hidden" src={logo} alt="" />
         </div>
-        <Buttons name={"Dashboard"} to={"/"} Before={AiFillDashboard} />
+        <Buttons
+          name={"Dashboard"}
+          to={"/dashboard"}
+          Before={AiFillDashboard}
+        />
         <hr className=" border-yellow-400" />
         <div
           className={` bg-blue-950  hover:h-32 transition-all duration-[1000ms]   overflow-hidden ${

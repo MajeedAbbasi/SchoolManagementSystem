@@ -10,7 +10,7 @@ import { setUpdate, setView } from "../../../Slices/StdActionSlice";
 const AllStudents = () => {
   const [showhidden, setShowhidden] = useState(false);
   const [close, setClose] = useState(false);
-
+  const [clear, setClear] = useState(false);
   const [search, setSearch] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [formData, setFormData] = useState([]);
@@ -22,17 +22,10 @@ const AllStudents = () => {
     if (data) {
       setFormData(JSON.parse(data));
     }
-  }, []);
+  }, [clear]);
 
   const handleSearch = () => {
     setSearch(searchValue);
-  };
-
-  const handleClear = () => {
-    setClear(() => {
-      localStorage.clear("formData");
-      return true;
-    });
   };
 
   const handleView = (uniqueid) => {
@@ -81,7 +74,10 @@ const AllStudents = () => {
             </button>
             <button
               className="bg-blue-900 h-6 px-5 pr-6 rounded-full text-sm focus:outline-none lg:w-[100px] w-[100px] ml-3 font-bold text-white text-[11px] mt-[1px]"
-              onClick={handleClear}
+              onClick={() => {
+                localStorage.removeItem("formData");
+                setClear(!clear);
+              }}
             >
               Clear All
             </button>

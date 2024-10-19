@@ -86,32 +86,41 @@ const AdmitionForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+
     const existingData = JSON.parse(localStorage.getItem("formData")) || [];
-    const updatedData = [...existingData, formData];
-    localStorage.setItem("formData", JSON.stringify(updatedData));
-    setFormData({
-      ID: "",
-      studentName: "",
-      class: "",
-      section: "",
-      gender: "",
-      dob: "",
-      roll: "",
-      admissionNo: "",
-      religion: "",
-      email: "",
-      fatherName: "",
-      motherName: "",
-      fatherOccupation: "",
-      motherOccupation: "",
-      phoneNumber: "",
-      nationality: "",
-      presentAddress: "",
-      permanentAddress: "",
-      StdImg: null,
-      ParentImg: null,
-      uniqueid: "",
+    let valueExist = existingData.filter((e) => {
+      return e.ID === formData.ID;
     });
+
+    if (valueExist.length === 0) {
+      const updatedData = [...existingData, formData];
+      localStorage.setItem("formData", JSON.stringify(updatedData));
+      setFormData({
+        ID: "",
+        studentName: "",
+        class: "",
+        section: "",
+        gender: "",
+        dob: "",
+        roll: "",
+        admissionNo: "",
+        religion: "",
+        email: "",
+        fatherName: "",
+        motherName: "",
+        fatherOccupation: "",
+        motherOccupation: "",
+        phoneNumber: "",
+        nationality: "",
+        presentAddress: "",
+        permanentAddress: "",
+        StdImg: null,
+        ParentImg: null,
+        uniqueid: "",
+      });
+    } else {
+      alert("Id already Exist Please choose another id 😥");
+    }
   };
 
   const handleUpdata = () => {
@@ -480,7 +489,6 @@ const AdmitionForm = () => {
                           Cancel
                         </button>
                       </NavLink>
-                      /
                     </div>
                   )}
                 </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import adminpic from "../../image/admin/adminpic.png";
 import { MdDelete } from "react-icons/md";
 import { GiGraduateCap } from "react-icons/gi";
@@ -12,10 +12,15 @@ import {
   setNotifications,
 } from "../../Slices/NotificationSlice";
 import { setMessageCount, setMessages } from "../../Slices/MessageSlice";
-
+import { useNavigate } from "react-router-dom";
+import { setAccess } from "../../Slices/AccessSlice";
 const Header = () => {
   const [close, setClose] = useState(true);
   const [closeNotification, setCloseNotification] = useState(true);
+  const [logoutNotifi, setLogoutNotifi] = useState(true);
+  let Stored = JSON.parse(localStorage.getItem("loginData"));
+
+  const dispatch = useDispatch();
   const notificationCount = useSelector(
     (state) => state.NotificationSlice.notification
   );
@@ -25,8 +30,15 @@ const Header = () => {
   const MessageCount = useSelector((state) => state.MessageSlice.messageSlice);
   const Messages = useSelector((state) => state.MessageSlice.messages);
   console.log(Messages);
-  const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    let data = JSON.parse(localStorage.getItem("login"));
+    const update = { ...data, type: false };
+    localStorage.setItem("login", JSON.stringify(update));
+    setLogoutNotifi(true);
+    dispatch(setAccess(false));
+    navigate("/");
+  };
   return (
     <>
       <div className="  header flex z-10  bg-white fixed  pt-2  h-12 w-full">
@@ -84,6 +96,7 @@ const Header = () => {
               dispatch(setMessageCount(0));
               setClose(!close);
               setCloseNotification(true);
+              setLogoutNotifi(true);
             }}
           >
             {MessageCount ? (
@@ -93,7 +106,6 @@ const Header = () => {
             ) : (
               ""
             )}
-
             <CiMail />
           </div>
           <div
@@ -144,6 +156,7 @@ const Header = () => {
               dispatch(setNotification(0));
               setCloseNotification(!closeNotification);
               setClose(true);
+              setLogoutNotifi(true);
             }}
           >
             {notificationCount ? (
@@ -189,7 +202,6 @@ const Header = () => {
                         <p className="text-green-400">{e.PostedBy}</p>
                         <p className="text-amber-950">{e.date}</p>
                       </div>
-
                       <p>{e.detail}</p>
                     </div>
                     <hr />
@@ -202,12 +214,39 @@ const Header = () => {
           </div>
         </div>
         <div className="h-6 w-[1px] bg-slate-400 mt-1 ml-3"></div>
-        <div className="h-8 w-30 lg:ml-6 ml-4 flex">
+        <div
+          className="h-8 w-30 lg:ml-6 ml-4 flex cursor-pointer"
+          onClick={() => {
+            setLogoutNotifi(!logoutNotifi);
+            setClose(true);
+            setCloseNotification(true);
+          }}
+        >
           <img className="rounded-full" src={adminpic} alt="" />
           <div className=" ml-2 lg:block hidden">
-            <p className="text-[13px] font-bold ">Ab Majeed </p>
+            <p className="text-[13px] font-bold ">{Stored.UserName} </p>
             <p className="absolute -mt-1">admin</p>
           </div>
+        </div>
+        <div
+          className={`absolute bg-gray-100 shadow-md h-28 right-52 w-36 top-12 rounded-sm -ml-40  ${
+            logoutNotifi ? "hidden" : "visible"
+          }`}
+        >
+          <div
+            className="text-red-600 mt-1 cursor-pointer ml-28"
+            onClick={() => {
+              setLogoutNotifi(true);
+            }}
+          >
+            <IoClose className="w-5 h-5" />
+          </div>
+          <button
+            className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 mt-4 ml-6"
+            onClick={handleLogout}
+          >
+            LogOut
+          </button>
         </div>
       </div>
     </>

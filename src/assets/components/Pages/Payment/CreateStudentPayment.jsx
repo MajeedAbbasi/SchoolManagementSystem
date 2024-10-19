@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { TfiReload } from "react-icons/tfi";
 import { IoClose } from "react-icons/io5";
-
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 const CreateStudentPayment = () => {
   const [showhidden, setShowhidden] = useState(false);
   const HideShow = () => {
@@ -11,8 +12,6 @@ const CreateStudentPayment = () => {
   const [paymentData, setPaymentData] = useState({
     name: "",
     ID: "",
-    class: "",
-    section: "",
     totalFee: "",
     paymentMethod: "",
     status: "",
@@ -28,33 +27,55 @@ const CreateStudentPayment = () => {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     let uniqueid =
       "id-" + Date.now() + "-" + Math.random().toString(36).substr(2, 9);
     setPaymentData((prevData) => ({
       ...prevData,
-      uniqueid: uniqueid,
+      uniqueid,
     }));
-    e.preventDefault();
-    const formData = localStorage.getItem("formData");
 
-    const existingData = JSON.parse(localStorage.getItem("paymentData")) || [];
-    const updatedData = [...existingData, paymentData];
-    localStorage.setItem("paymentData", JSON.stringify(updatedData));
-    setPaymentData({
-      name: "",
-      ID: "",
-      class: "",
-      section: "",
-      totalFee: "",
-      paymentMethod: "",
-      status: "",
-      date: "",
-      uniqueid: "",
+    const formData = JSON.parse(localStorage.getItem("formData")) || [];
+    const valueExist = formData.filter((e) => {
+      return e.ID === paymentData.ID && e.studentName === paymentData.name;
     });
+    if (valueExist.length !== 0) {
+      const existingData =
+        JSON.parse(localStorage.getItem("paymentData")) || [];
+      let ExistValue = existingData.filter((e) => {
+        return e.ID === paymentData.ID;
+      });
+      if (ExistValue.length === 0) {
+        const updatedData = [...existingData, paymentData];
+        localStorage.setItem("paymentData", JSON.stringify(updatedData));
+        setPaymentData({
+          name: "",
+          ID: "",
+          class: "",
+          section: "",
+          totalFee: "",
+          paymentMethod: "",
+          status: "",
+          date: "",
+          uniqueid: "",
+        });
+      } else {
+        alert("The payment data for this student has already been created...");
+      }
+    } else {
+      alert("Student Doesn't Exist");
+    }
   };
 
+  let view = useSelector((state) => state.PaymentSlice.paymentUpdate);
+  useEffect(() => {
+    console.log(view);
+    if (view.length != 0) {
+      setPaymentData(view[0]);
+    }
+  }, []);
   const HandleClose = () => {
-    localStorage.clear("paymentData");
+    localStorage.removeItem("paymentData");
   };
   return (
     <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] fadeInLeftToRightCustom z-0">
@@ -115,45 +136,7 @@ const CreateStudentPayment = () => {
                   className="w-56 h-8 bg-gray-100  shadow-sm focus:outline-none  pl-2  focus:ring-1 focus:ring-gray-400 focus:border rounded-sm"
                 />
               </div>
-              <div className="col-span-1">
-                <label className="block mb-2 text-sm font-medium text-gray-700">
-                  Class
-                </label>
-                <select
-                  className="w-56 h-8 bg-gray-100  shadow-sm focus:outline-none  pl-2  focus:ring-1 focus:ring-gray-400 focus:border rounded-sm "
-                  name="class"
-                  required
-                  value={paymentData.class}
-                  onChange={handleChange}
-                >
-                  <option className="hover:bg-gray-700" value="">
-                    Please Select Class
-                  </option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                </select>
-              </div>
-              <div className="col-span-1">
-                <label className="block mb-2 text-sm font-medium text-gray-700">
-                  Section
-                </label>
-                <select
-                  required
-                  className="w-56 h-8 bg-gray-100  shadow-sm focus:outline-none  pl-2  focus:ring-1 focus:ring-gray-400 focus:border rounded-sm"
-                  name="section"
-                  value={paymentData.section}
-                  onChange={handleChange}
-                >
-                  <option value="">Please Select Section</option>
-                  <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
-                  <option value="D">D</option>
-                </select>
-              </div>
+
               <div className="col-span-1">
                 <label className="block mb-2 text-sm font-medium text-gray-700">
                   Total Fee
@@ -173,7 +156,7 @@ const CreateStudentPayment = () => {
                 </label>
                 <input
                   required
-                  type="number"
+                  type="text"
                   name="paymentMethod"
                   value={paymentData.paymentMethod}
                   onChange={handleChange}
@@ -210,20 +193,38 @@ const CreateStudentPayment = () => {
                 />
               </div>
               <div className="col-span-1 mr-[73px]">
-                <div className="mt-6 flex justify-end space-x-4">
-                  <button
-                    type="submit"
-                    className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                  >
-                    Save
-                  </button>
-                  <button
-                    type="reset"
-                    className="px-6 py-2 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                  >
-                    Reset
-                  </button>
-                </div>
+                {view.length === 0 ? (
+                  <div className="mt-6 flex justify-end space-x-4">
+                    <button
+                      type="submit"
+                      className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    >
+                      Save
+                    </button>
+                    <button
+                      type="reset"
+                      className="px-6 py-2 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    >
+                      Reset
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mt-6 flex justify-end space-x-4">
+                    <NavLink to="/payment/feecollection">
+                      <button
+                        // onClick={handleUpdata}
+                        className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      >
+                        Update
+                      </button>
+                    </NavLink>
+                    <NavLink to="/payment/feecollection">
+                      <button className="px-6 py-2 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                        Cancel
+                      </button>
+                    </NavLink>
+                  </div>
+                )}
               </div>
             </div>
           </form>

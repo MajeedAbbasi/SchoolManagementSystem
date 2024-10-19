@@ -19,6 +19,7 @@ const Notice = () => {
     detail: "",
     PostedBy: "",
     date: "",
+    uniqueid: "",
   });
 
   useEffect(() => {
