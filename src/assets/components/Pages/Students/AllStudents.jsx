@@ -18,7 +18,6 @@ const AllStudents = () => {
 
   useEffect(() => {
     const data = localStorage.getItem("formData");
-
     if (data) {
       setFormData(JSON.parse(data));
     }

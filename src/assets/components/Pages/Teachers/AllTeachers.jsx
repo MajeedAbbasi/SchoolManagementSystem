@@ -34,7 +34,7 @@ const AllTeachers = () => {
   };
   const HandleView = (uniqueid) => {
     let latestData = data.filter((item) => item.uniqueid == uniqueid);
-    console.log(latestData);
+
     dispatch(setView(latestData));
   };
   const handleClear = () => {

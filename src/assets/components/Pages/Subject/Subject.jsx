@@ -51,17 +51,15 @@ const Subject = () => {
       ...datatoUpdate[0],
     }));
     setUpdate(true);
-    console.log(subjectData);
   };
   const updateValue = () => {
     let stored = JSON.parse(localStorage.getItem("subjectData"));
-    console.log(stored);
+
     let updatedData = stored.map((value) => {
       if (value.uniqueid === subjectData.uniqueid) {
-        console.log("object");
         return { ...value, ...subjectData };
       }
-      console.log("cout");
+
       return value;
     });
     localStorage.setItem("subjectData", JSON.stringify(updatedData));

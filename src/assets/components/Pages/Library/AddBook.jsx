@@ -43,7 +43,7 @@ const AddBook = () => {
     e.preventDefault();
     let unique =
       "id-" + Date.now() + "-" + Math.random().toString(36).substr(2, 9);
-    console.log(unique);
+
     const updatedBookData = {
       ...bookData,
       uniqueid: unique,
@@ -65,7 +65,7 @@ const AddBook = () => {
 
   const handleUpdata = () => {
     let storedData = JSON.parse(localStorage.getItem("bookData"));
-    console.log(storedData);
+
     let updatedData = storedData.map((value) => {
       if (value.uniqueid === bookData.uniqueid) {
         return { ...value, ...bookData };

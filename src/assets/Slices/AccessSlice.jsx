@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+let login = JSON.parse(localStorage.getItem("login")) || [];
 
 const AccessSlice = createSlice({
   name: "AccessSlice",
   initialState: {
-    access: false,
+    access: login,
   },
   reducers: {
     setAccess: (state, action) => {

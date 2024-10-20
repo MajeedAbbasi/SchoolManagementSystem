@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { TfiReload } from "react-icons/tfi";
 import { IoClose } from "react-icons/io5";
-
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { setExpenseUpdate } from "../../../Slices/PaymentSlice";
 const AddExpenses = () => {
   const [showhidden, setShowhidden] = useState(false);
   const HideShow = () => {
@@ -19,7 +21,7 @@ const AddExpenses = () => {
     date: "",
     uniqueid: "",
   });
-
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAddExpense({
@@ -27,18 +29,13 @@ const AddExpenses = () => {
       [name]: value,
     });
   };
-
   const handleSubmit = (e) => {
+    e.preventDefault();
     let uniqueid =
       "id-" + Date.now() + "-" + Math.random().toString(36).substr(2, 9);
-    setAddExpense((prevData) => ({
-      ...prevData,
-      uniqueid: uniqueid,
-    }));
-    e.preventDefault();
+    const newExpense = { ...addExpense, uniqueid };
     const existingData = JSON.parse(localStorage.getItem("addExpense")) || [];
-    const updatedData = [...existingData, addExpense];
-
+    const updatedData = [...existingData, newExpense];
     localStorage.setItem("addExpense", JSON.stringify(updatedData));
     setAddExpense({
       name: "",
@@ -57,6 +54,25 @@ const AddExpenses = () => {
     localStorage.clear("addExpense");
   };
 
+  let view = useSelector((state) => state.PaymentSlice.expenseUpdate);
+
+  useEffect(() => {
+    if (view.length != 0) {
+      setAddExpense(view[0]);
+    }
+  }, []);
+  const handleUpdata = () => {
+    let storedData = JSON.parse(localStorage.getItem("addExpense"));
+
+    let updatedData = storedData.map((value) => {
+      if (value.uniqueid === addExpense.uniqueid) {
+        return { ...value, ...addExpense };
+      }
+      return value;
+    });
+    localStorage.setItem("addExpense", JSON.stringify(updatedData));
+    dispatch(setExpenseUpdate(null));
+  };
   return (
     <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] fadeInLeftToRightCustom z-0">
       <div className="h-8 ml-14 flex pt-1 lg:h-8  bg-white mt-16 w-[1080px] pl-1 ">
@@ -204,21 +220,42 @@ const AddExpenses = () => {
                 />
               </div>
 
-              <div className="col-span-1 mr-[73px]">
-                <div className="mt-6 flex justify-end space-x-4">
-                  <button
-                    type="submit"
-                    className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                  >
-                    Save
-                  </button>
-                  <button
-                    type="reset"
-                    className="px-6 py-2 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                  >
-                    Reset
-                  </button>
-                </div>
+              <div className="col-span-1 mr-[50px] ">
+                {view.length === 0 ? (
+                  <div className="mt-6 flex justify-end space-x-4">
+                    <button
+                      type="submit"
+                      className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    >
+                      Save
+                    </button>
+                    <button
+                      type="reset"
+                      className="px-6 py-2 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    >
+                      Reset
+                    </button>
+                  </div>
+                ) : (
+                  <div className="mt-6  flex justify-end space-x-4">
+                    <NavLink to="/payment/allexpenses">
+                      <button
+                        onClick={handleUpdata}
+                        className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                      >
+                        Update
+                      </button>
+                    </NavLink>
+                    <NavLink to="/payment/allexpenses">
+                      <button
+                        className="px-6 py-2 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                        onClick={() => dispatch(setExpenseUpdate(null))}
+                      >
+                        Cancel
+                      </button>
+                    </NavLink>
+                  </div>
+                )}
               </div>
             </div>
           </form>

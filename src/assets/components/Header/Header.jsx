@@ -29,14 +29,14 @@ const Header = () => {
   );
   const MessageCount = useSelector((state) => state.MessageSlice.messageSlice);
   const Messages = useSelector((state) => state.MessageSlice.messages);
-  console.log(Messages);
+
   const navigate = useNavigate();
   const handleLogout = () => {
     let data = JSON.parse(localStorage.getItem("login"));
     const update = { ...data, type: false };
     localStorage.setItem("login", JSON.stringify(update));
     setLogoutNotifi(true);
-    dispatch(setAccess(false));
+    dispatch(setAccess(update));
     navigate("/");
   };
   return (

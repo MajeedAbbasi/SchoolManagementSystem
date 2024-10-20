@@ -18,7 +18,6 @@ const Account = () => {
     if (storedData) {
       setStored(JSON.parse(storedData));
     }
-    console.log(storedData);
   }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +44,7 @@ const Account = () => {
     localStorage.removeItem("accountData");
     localStorage.setItem("accountData", JSON.stringify(accountData));
     setStored(accountData);
-    console.log(stored);
+
     setAccountData({
       Name: "",
       Email: "",

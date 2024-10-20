@@ -33,7 +33,7 @@ const SignUpLogin = () => {
   const SignupSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem("loginData", JSON.stringify(signup));
-    alert("signup hogya");
+    alert("signup hogya 😂");
     setSignUp({
       UserName: "",
       Password: "",
@@ -46,14 +46,10 @@ const SignUpLogin = () => {
 
     if (data) {
       if (data.email === login.email && data.Password === login.Password) {
-        console.log("yes");
-        localStorage.setItem("login", JSON.stringify(login));
-        dispatch(setAccess(true));
-        // setLogin((prev) => {
-        //   //   const updatedLogin = { ...prev, type: true };
-        //   return updatedLogin;
-        // });
-        // console.log(login);
+        let stored = JSON.parse(localStorage.getItem("login"));
+        const merge = { ...stored, type: true };
+        localStorage.setItem("login", JSON.stringify(merge));
+        dispatch(setAccess(merge));
         navigate("/dashboard");
       } else {
         alert("please Enter a valid Email or Password ");
@@ -66,9 +62,35 @@ const SignUpLogin = () => {
   console.log(logindata);
   return (
     <div>
-      <div className="main mt-[8%] ml-[40%]">
+      <div className="main mt-[5%] ml-[40%]">
         <input type="checkbox" id="chk" aria-hidden="true" />
+        <div className="login">
+          <form onSubmit={LoginSubmit}>
+            <label htmlFor="chk" aria-hidden="true" className="">
+              Login
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={login.email}
+              placeholder="Email"
+              onChange={handlechange}
+              required
+            />
+            <input
+              type="password"
+              name="Password"
+              value={login.Password}
+              placeholder="Password"
+              onChange={handlechange}
+              required
+            />
 
+            <button className="bg-yellow-400  hover:bg-yellow-500">
+              Login
+            </button>
+          </form>
+        </div>
         <div className="signup">
           <form onSubmit={SignupSubmit}>
             <label htmlFor="chk" aria-hidden="true">
@@ -100,33 +122,6 @@ const SignUpLogin = () => {
             />
             <button className="bg-yellow-400 hover:bg-yellow-500">
               Sign up
-            </button>
-          </form>
-        </div>
-        <div className="login">
-          <form onSubmit={LoginSubmit}>
-            <label htmlFor="chk" aria-hidden="true" className="">
-              Login
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={login.email}
-              placeholder="Email"
-              onChange={handlechange}
-              required
-            />
-            <input
-              type="password"
-              name="Password"
-              value={login.Password}
-              placeholder="Password"
-              onChange={handlechange}
-              required
-            />
-
-            <button className="bg-yellow-400  hover:bg-yellow-500">
-              Login
             </button>
           </form>
         </div>

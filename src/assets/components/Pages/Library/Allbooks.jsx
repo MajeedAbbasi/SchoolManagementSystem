@@ -16,7 +16,6 @@ const Allbooks = () => {
 
   useEffect(() => {
     let data = JSON.parse(localStorage.getItem("bookData"));
-    console.log(data);
     setBookData(data);
   }, []);
   const dispatch = useDispatch();

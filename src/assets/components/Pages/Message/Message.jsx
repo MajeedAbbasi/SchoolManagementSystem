@@ -39,8 +39,6 @@ const Message = () => {
       setTimeout(() => {
         setAlertMessage(false);
       }, 250);
-
-      console.log("Some field required");
     } else {
       setAlertMessage(null);
       setTimeout(() => {

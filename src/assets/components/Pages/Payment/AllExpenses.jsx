@@ -5,15 +5,30 @@ import { TfiReload } from "react-icons/tfi";
 import { IoClose } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
+import { setExpenseUpdate } from "../../../Slices/PaymentSlice";
+import { useDispatch } from "react-redux";
 const AllExpense = () => {
   const [showhidden, setShowhidden] = useState(false);
-  const [addExpense, setAddExpense] = useState("");
+  const [addExpense, setAddExpense] = useState([]);
+  const [search, setSearch] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const dispatch = useDispatch();
   useEffect(() => {
-    console.log(localStorage.getItem("addExpense"));
-    let storeddata = JSON.parse(localStorage.getItem("addExpense"));
-    setAddExpense(storeddata);
-    console.log("this is stored data", addExpense);
+    let storeddata = JSON.parse(localStorage.getItem("addExpense")) || [];
+
+    if (storeddata) {
+      setAddExpense(storeddata);
+    }
   }, []);
+  const handleDelete = (uniqueid) => {
+    let data = addExpense.filter((value) => {
+      return uniqueid !== value.uniqueid;
+    });
+
+    localStorage.setItem("addExpense", JSON.stringify(data));
+    setAddExpense(data);
+  };
+
   return (
     <div>
       <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] fadeInLeftToRightCustom z-0">
@@ -29,7 +44,7 @@ const AllExpense = () => {
                   <input
                     type="search"
                     name="search"
-                    // onChange={(e) => setSearchValue(e.target.value)}
+                    onChange={(e) => setSearchValue(e.target.value)}
                     placeholder="Type Name..."
                     className="bg-gray-100 h-6 px-5 rounded-full text-sm focus:outline-none lg:w-[150px] w-[100px] ml-1 font-semibold text-[11px]"
                   />
@@ -37,10 +52,10 @@ const AllExpense = () => {
               </div>
               <button
                 className="bg-blue-900 h-6 px-5 pr-6 rounded-full text-sm focus:outline-none lg:w-[100px] w-[100px] ml-3 font-bold text-white text-[11px] mt-[1px] "
-                // onClick={() => {
-                //   setSearch(searchValue);
-                //   setSearchValue("");
-                // }}
+                onClick={() => {
+                  setSearch(searchValue);
+                  setSearchValue("");
+                }}
               >
                 Search
               </button>
@@ -57,7 +72,7 @@ const AllExpense = () => {
               )}
               <TfiReload
                 className="text-green-400 cursor-pointer h-5 w-5 ml-3 mt-1"
-                // onClick={() => setSearch("")}
+                onClick={() => setSearch("")}
               />
               <IoClose
                 className="text-red-500 cursor-pointer h-7 w-7 ml-3"
@@ -70,14 +85,14 @@ const AllExpense = () => {
             <input type="checkbox" name="" />
             <div className="flex gap-4 ml-3 mt-1">
               <p className="w-10">ID</p>
-              <p className="w-32">Expense Type</p>
-              <p className="w-28 ml-10">Name</p>
+              <p className="w-32">Name </p>
+              <p className="w-28 ml-10">Expense Type</p>
               <p className="w-24">Amount</p>
               <p className="w-28">Status </p>
               <p className="w-28">Phone</p>
               <p className="w-28">Email</p>
-              <p className="w-28">Date</p>
-              <p className="w-20">Action</p>
+              <p className="w-28 ml-6">Date</p>
+              <p className="w-20 -ml-6">Action</p>
             </div>
           </div>
           <hr />
@@ -87,43 +102,53 @@ const AllExpense = () => {
             }}
             className="lg:h-[520px]  bg-white transition-all duration-[1000ms] overflow-hidden"
           >
-            {addExpense ? (
-              addExpense.map((e) => {
-                <>
-                  <div className="flex font-semibold h-8 py-1">
-                    <input className="ml-2" type="checkbox" />
-                    <div className="flex flex-row gap-6 ml-3 pt-1 text-[12px]">
-                      <p className="w-10">123</p>
+            {addExpense && addExpense.length > 0 ? (
+              addExpense
+                .filter((e) => {
+                  return e.name.toUpperCase().includes(search.toUpperCase());
+                })
+                .map((e, key) => (
+                  <div key={key}>
+                    <div className="flex font-semibold h-8 py-1">
+                      <input className="ml-2" type="checkbox" />
+                      <div className="flex flex-row gap-6 ml-3 pt-1 text-[12px]">
+                        <p className="w-8">123</p>
+                        <p className="w-36">{e.name}</p>
+                        <p className=" w-24 ml-6">{e.expensetype}</p>
+                        <p className="w-28 ml-2">{e.amount}</p>
+                        {e.status == "Due" ? (
+                          <p className="w-12 bg-red-700 text-center border rounded-3xl text-white -ml-3 h-6 -mt-1 pt-[2px]">
+                            {e.status}
+                          </p>
+                        ) : (
+                          <p className="w-12 bg-green-700 text-center border rounded-3xl text-white -ml-9  h-6 -mt-1 pt-[2px]">
+                            {e.status}
+                          </p>
+                        )}
+                        <p className="w-28 ml-10">{e.phone}</p>
+                        <p className="w-28 ">{e.email}</p>
+                        <p className="w-28 ml-7">{e.date}</p>
 
-                      <p className="w-32 ">{e.expensetype}</p>
-                      <p className="w-24 ml-6">{e.name}</p>
-                      <p className="w-28 ml-2">{e.amount}</p>
-                      <p className="w-28 -ml-5">
-                        {e.status}
-                        Status
-                      </p>
-                      <p className="w-28 -ml-4">{e.phone}</p>
-                      <p className="w-28 -ml-4">{e.email}</p>
-                      <p className="w-28">{e.date}</p>
-
-                      <div className="flex gap-2 w-[70px]">
-                        <NavLink to="/payment/createstudentpayment">
-                          <FaEdit
-                            // onClick={() => handleUpdate(e.uniqueid)}
-                            className="h-4 w-4 text-green-500 cursor-pointer"
+                        <div className="flex gap-2 w-[70px] -ml-8">
+                          <NavLink to="/payment/addexpenses">
+                            <FaEdit
+                              onClick={() =>
+                                dispatch(setExpenseUpdate(e.uniqueid))
+                              }
+                              className="h-4 w-4 text-green-500 cursor-pointer"
+                            />
+                          </NavLink>
+                          <MdDelete
+                            onClick={() => handleDelete(e.uniqueid)}
+                            className="h-5 w-5 -mt-[1px] text-red-500 cursor-pointer"
                           />
-                        </NavLink>
-                        <MdDelete
-                          // onClick={() => handleDelete(e.uniqueid)}
-                          className="h-5 w-5 -mt-[1px] text-red-500 cursor-pointer"
-                        />
+                        </div>
                       </div>
+                      <hr />
                     </div>
                     <hr />
                   </div>
-                  <hr />
-                </>;
-              })
+                ))
             ) : (
               <div className="flex font-semibold h-8 py-1">Data not found</div>
             )}

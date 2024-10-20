@@ -14,7 +14,6 @@ const StudentDetail = () => {
     setShowhidden(false);
   };
   const view = useSelector((state) => state.stdAction.stdAction);
-  console.log(view);
 
   return (
     <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] fadeInLeftToRightCustom z-0">

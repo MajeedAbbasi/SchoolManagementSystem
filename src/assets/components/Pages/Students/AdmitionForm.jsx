@@ -85,7 +85,6 @@ const AdmitionForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
 
     const existingData = JSON.parse(localStorage.getItem("formData")) || [];
     let valueExist = existingData.filter((e) => {
@@ -125,7 +124,7 @@ const AdmitionForm = () => {
 
   const handleUpdata = () => {
     let storedData = JSON.parse(localStorage.getItem("formData"));
-    console.log(storedData);
+
     let updatedData = storedData.map((value) => {
       if (value.uniqueid === formData.uniqueid) {
         return { ...value, ...formData };

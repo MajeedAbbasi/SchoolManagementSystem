@@ -5,7 +5,7 @@ import { TfiReload } from "react-icons/tfi";
 import { IoClose } from "react-icons/io5";
 import { json, NavLink } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPaymentUpdate } from "../../../Slices/PaymentSlice";
 const FeeCollection = () => {
   const [showhidden, setShowhidden] = useState(false);
@@ -14,7 +14,6 @@ const FeeCollection = () => {
   const [searchValue, setSearchValue] = useState("");
   useEffect(() => {
     let feeData = JSON.parse(localStorage.getItem("paymentData")) || [];
-
     let filterData = [];
     let stdData = JSON.parse(localStorage.getItem("formData")) || [];
     feeData.forEach((ele) => {
@@ -27,7 +26,17 @@ const FeeCollection = () => {
     });
     setPaymentData(filterData);
   }, []);
+  let view = useSelector((state) => state.PaymentSlice.paymentUpdate);
+
   const dispatch = useDispatch();
+  const handleDelete = (uniqueid) => {
+    let data = paymentData.filter((value) => {
+      return uniqueid !== value.uniqueid;
+    });
+    localStorage.setItem("paymentData", JSON.stringify(data));
+    setPaymentData(data);
+  };
+
   return (
     <div>
       <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] fadeInLeftToRightCustom z-0">
@@ -102,57 +111,63 @@ const FeeCollection = () => {
             className="lg:h-[520px]  bg-white transition-all duration-[1000ms] overflow-hidden"
           >
             {paymentData && paymentData.length > 0
-              ? paymentData.map((e, key) => (
-                  <div key={key}>
-                    <div className="flex font-semibold h-8 py-1">
-                      <input className="ml-2" type="checkbox" />
-                      <div className="flex flex-row gap-6 ml-3 pt-1 text-[12px]">
-                        <p className="">123</p>
-                        <img
-                          className="h-6 w-6 rounded-full -mt-1"
-                          src={e.StdImg}
-                          alt="student"
-                        />
-                        <p className="text-[12px] ml-3 w-28 overflow-hidden">
-                          {e.studentName}
-                        </p>
-                        <p className=" -ml-5 w-20">{e.gender}</p>
-                        <p className="text-[12px]  w-20   overflow-hidden">
-                          {e.fatherName}
-                        </p>
-                        <p className="w-14 ">{e.class}</p>
-                        <p className="w-14 ">{e.section}</p>
-                        <p className="w-16">{e.totalFee}</p>
-                        {e.status == "Due" ? (
-                          <p className="w-12 bg-red-700 text-center border rounded-3xl text-white -ml-3 h-6 -mt-1 pt-[2px]">
-                            {e.status}
-                          </p>
-                        ) : (
-                          <p className="w-12 bg-green-700 text-center border rounded-3xl text-white -ml-3 h-6 -mt-1 pt-[2px]">
-                            {e.status}
-                          </p>
-                        )}
-
-                        <p className="w-28 -ml-2">{e.phoneNumber}</p>
-                        <p className="w-28  -ml-5">{e.date}</p>
-                        <div className="flex gap-2 w-[70px]">
-                          <NavLink to="/payment/createstudentpayment">
-                            <FaEdit
-                              onClick={() => dispatch(setPaymentUpdate(e.ID))}
-                              className="h-4 w-4 text-green-500 cursor-pointer"
-                            />
-                          </NavLink>
-                          <MdDelete
-                            // onClick={() => handleDelete(e.uniqueid)}
-                            className="h-5 w-5 -mt-[1px] text-red-500 cursor-pointer"
+              ? paymentData
+                  .filter((e) => {
+                    return e.studentName
+                      .toUpperCase()
+                      .includes(search.toUpperCase());
+                  })
+                  .map((e, key) => (
+                    <div key={key}>
+                      <div className="flex font-semibold h-8 py-1">
+                        <input className="ml-2" type="checkbox" />
+                        <div className="flex flex-row gap-6 ml-3 pt-1 text-[12px]">
+                          <p className="">123</p>
+                          <img
+                            className="h-6 w-6 rounded-full -mt-1"
+                            src={e.StdImg}
+                            alt="student"
                           />
+                          <p className="text-[12px] ml-7 w-28 overflow-hidden">
+                            {e.studentName}
+                          </p>
+                          <p className=" -ml-8 w-20">{e.gender}</p>
+                          <p className="text-[12px]  w-20   overflow-hidden">
+                            {e.fatherName}
+                          </p>
+                          <p className="w-14 ">{e.class}</p>
+                          <p className="w-14 ">{e.section}</p>
+                          <p className="w-16">{e.totalFee}</p>
+                          {e.status == "Due" ? (
+                            <p className="w-12 bg-red-700 text-center border rounded-3xl text-white -ml-3 h-6 -mt-1 pt-[2px]">
+                              {e.status}
+                            </p>
+                          ) : (
+                            <p className="w-12 bg-green-700 text-center border rounded-3xl text-white -ml-5 h-6 -mt-1 pt-[2px]">
+                              {e.status}
+                            </p>
+                          )}
+
+                          <p className="w-28 -ml-2">{e.phoneNumber}</p>
+                          <p className="w-28  -ml-5">{e.date}</p>
+                          <div className="flex gap-2 w-[70px] -mr-4">
+                            <NavLink to="/payment/createstudentpayment">
+                              <FaEdit
+                                onClick={() => dispatch(setPaymentUpdate(e.ID))}
+                                className="h-4 w-4 text-green-500 cursor-pointer"
+                              />
+                            </NavLink>
+                            <MdDelete
+                              onClick={() => handleDelete(e.uniqueid)}
+                              className="h-5 w-5 -mt-[1px] text-red-500 cursor-pointer"
+                            />
+                          </div>
                         </div>
+                        <hr />
                       </div>
                       <hr />
                     </div>
-                    <hr />
-                  </div>
-                ))
+                  ))
               : ""}
           </div>
         </div>

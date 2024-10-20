@@ -34,14 +34,12 @@ import SignUpLogin from "./assets/components/Pages/Login/SignUpLogin";
 import Protected from "./Protected";
 import { useSelector } from "react-redux";
 const App = () => {
-  // localStorage.clear();
-  // let access = JSON.parse(localStorage.getItem("login"));
-  // console.log(access);
   const access = useSelector((state) => state.AccessSlice.access);
+
   return (
     <BrowserRouter>
       <div className=" flex">
-        {access === true ? (
+        {access.type === true ? (
           <>
             <Navbar />
             <div className="lg:ml-[200px] w-auto h-full">

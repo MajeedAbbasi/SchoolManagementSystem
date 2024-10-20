@@ -63,14 +63,12 @@ const AddTeacher = () => {
       reader.readAsDataURL(file);
     }
   };
-  useEffect(() => {
-    console.log(typeof teacherData);
-  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const existingData = JSON.parse(localStorage.getItem("teacherData")) || [];
     const updatedData = [...existingData, teacherData];
-    console.log(typeof updatedData);
+
     localStorage.setItem("teacherData", JSON.stringify(updatedData));
     setTeacherData({
       teacherName: "",
@@ -91,7 +89,7 @@ const AddTeacher = () => {
   };
   const handleUpdata = () => {
     let storedData = JSON.parse(localStorage.getItem("teacherData"));
-    console.log(storedData);
+
     let updatedData = storedData.map((value) => {
       if (value.uniqueid === teacherData.uniqueid) {
         return { ...value, ...teacherData };

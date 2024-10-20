@@ -7,7 +7,7 @@ import { IoClose } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 const TeacherDetail = () => {
   const view = useSelector((state) => state.tchrAction.tchrAction);
-  console.log(view);
+
   const [showhidden, setShowhidden] = useState(false);
 
   const HideShow = () => {

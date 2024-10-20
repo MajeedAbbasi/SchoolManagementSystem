@@ -50,15 +50,15 @@ const ExamSchedule = () => {
   };
   const updateValue = () => {
     let stored = JSON.parse(localStorage.getItem("examSchedule"));
-    console.log(stored);
+
     let updatedData = stored.map((value) => {
       if (value.uniqueid === examSchedule.uniqueid) {
         return { ...value, ...examSchedule };
       }
-      console.log("cout");
+
       return value;
     });
-    console.log(updatedData);
+
     localStorage.setItem("examSchedule", JSON.stringify(updatedData));
     setUpdate(false);
     setExamSchedule({

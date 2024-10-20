@@ -2,13 +2,16 @@ import React, { useState, useEffect } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { TfiReload } from "react-icons/tfi";
 import { IoClose } from "react-icons/io5";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { setPaymentUpdate } from "../../../Slices/PaymentSlice";
 const CreateStudentPayment = () => {
   const [showhidden, setShowhidden] = useState(false);
   const HideShow = () => {
     setShowhidden(!showhidden);
   };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [paymentData, setPaymentData] = useState({
     name: "",
     ID: "",
@@ -45,23 +48,19 @@ const CreateStudentPayment = () => {
       let ExistValue = existingData.filter((e) => {
         return e.ID === paymentData.ID;
       });
-      if (ExistValue.length === 0) {
-        const updatedData = [...existingData, paymentData];
-        localStorage.setItem("paymentData", JSON.stringify(updatedData));
-        setPaymentData({
-          name: "",
-          ID: "",
-          class: "",
-          section: "",
-          totalFee: "",
-          paymentMethod: "",
-          status: "",
-          date: "",
-          uniqueid: "",
-        });
-      } else {
-        alert("The payment data for this student has already been created...");
-      }
+      const updatedData = [...existingData, paymentData];
+      localStorage.setItem("paymentData", JSON.stringify(updatedData));
+      setPaymentData({
+        name: "",
+        ID: "",
+        class: "",
+        section: "",
+        totalFee: "",
+        paymentMethod: "",
+        status: "",
+        date: "",
+        uniqueid: "",
+      });
     } else {
       alert("Student Doesn't Exist");
     }
@@ -69,14 +68,24 @@ const CreateStudentPayment = () => {
 
   let view = useSelector((state) => state.PaymentSlice.paymentUpdate);
   useEffect(() => {
-    console.log(view);
     if (view.length != 0) {
       setPaymentData(view[0]);
     }
   }, []);
-  const HandleClose = () => {
-    localStorage.removeItem("paymentData");
+
+  const handleUpdata = () => {
+    let storedData = JSON.parse(localStorage.getItem("paymentData"));
+
+    let updatedData = storedData.map((value) => {
+      if (value.uniqueid === paymentData.uniqueid) {
+        return { ...value, ...paymentData };
+      }
+      return value;
+    });
+    localStorage.setItem("paymentData", JSON.stringify(updatedData));
+    dispatch(setPaymentUpdate(null));
   };
+
   return (
     <div className="bg-gray-300  lg:h-full flex flex-col lg:w-[100%] fadeInLeftToRightCustom z-0">
       <div className="h-8 ml-14 flex pt-1 lg:h-8  bg-white mt-16 w-[1080px] pl-1 ">
@@ -96,7 +105,7 @@ const CreateStudentPayment = () => {
           <TfiReload className="text-green-400 cursor-pointer h-5 w-5 ml-3 mt-1" />
           <IoClose
             className="text-red-500 cursor-pointer h-7 w-7 ml-3"
-            onClick={HandleClose}
+            onClick={() => navigate("/payment/feecollection")}
           />
         </div>
         <hr />
@@ -212,14 +221,17 @@ const CreateStudentPayment = () => {
                   <div className="mt-6 flex justify-end space-x-4">
                     <NavLink to="/payment/feecollection">
                       <button
-                        // onClick={handleUpdata}
+                        onClick={handleUpdata}
                         className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-md shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                       >
                         Update
                       </button>
                     </NavLink>
                     <NavLink to="/payment/feecollection">
-                      <button className="px-6 py-2 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                      <button
+                        className="px-6 py-2 bg-blue-700 text-white font-semibold rounded-md shadow-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                        onClick={() => dispatch(setPaymentUpdate(null))}
+                      >
                         Cancel
                       </button>
                     </NavLink>
